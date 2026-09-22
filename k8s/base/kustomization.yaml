@@ -7,12 +7,24 @@ resources:
   - namespace.yaml
   - configmap.yaml
   - secret.yaml
+
   - postgres-pvc.yaml
   - postgres.yaml
+
   - migrate-users-job.yaml
   - migrate-messages-job.yaml
+
   - user-service.yaml
   - message-service.yaml
+
   - bff.yaml
   - frontend.yaml
   - ingress.yaml
+
+  - minio.yaml
+  - minio-secret.yaml
+  - minio-bootstrap-job.yaml
+
+  - csi-s3-secret.yaml
+  - s3-pv.yaml
+  - s3-pvc.yaml

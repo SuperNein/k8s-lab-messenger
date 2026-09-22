@@ -139,4 +139,4 @@ fabric.properties
 .claude
 
 # Secrets
-k8s/base/secret.yaml
+k8s/**/*secret.yaml

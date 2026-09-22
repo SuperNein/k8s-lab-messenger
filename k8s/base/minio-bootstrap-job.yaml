@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-s3-bootstrap
+  namespace: messager
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600
+
+  template:
+    spec:
+      restartPolicy: OnFailure
+
+      containers:
+        - name: bootstrap
+          image: quay.io/minio/mc:latest
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: csi-s3-secret
+                  key: accessKeyID
+
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: csi-s3-secret
+                  key: secretAccessKey
+
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              until mc alias set local http://minio:9000 "$MINIO_ACCESS_KEY" "$MINIO_SECRET_KEY"; do
+                echo "Waiting for MinIO credentials/socket..."
+                sleep 3
+              done
+              
+              mc mb -p local/messager-uploads || true 
+              
+              echo "bootstrap completed"
