@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  namespace: messager
 
 spec:
   replicas: 1
@@ -45,8 +46,6 @@ spec:
           volumeMounts:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
-            - name: postgres-init
-              mountPath: /docker-entrypoint-initdb.d
 
           readinessProbe:
             exec:
@@ -71,9 +70,6 @@ spec:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: postgres-pvc
-        - name: postgres-init
-          configMap:
-            name: postgres-init-scripts
 
 ---
 
@@ -81,6 +77,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
+  namespace: messager
 
 spec:
   selector:

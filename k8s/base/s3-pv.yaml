@@ -2,8 +2,10 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: s3-pv-messager-uploads
+  namespace: messager
 
 spec:
+  storageClassName: standard
   capacity:
     storage: 10Gi
 
@@ -14,13 +16,13 @@ spec:
 
   mountOptions:
     - allow-delete
-    - url=http://minio:9000
+    - url=http://localhost:9000
     - use_path_request_style
 
   csi:
-    driver: ch.ctrox.csi.s3-driver
+    driver: ru.yandex.s3.csi
 
-    volumeHandle: messager-uploads-handle
+    volumeHandle: messager-uploads-volume
 
     nodePublishSecretRef:
       name: csi-s3-secret
@@ -30,4 +32,3 @@ spec:
       bucketName: messager-uploads
       mounter: rclone
 
-      options: "--memory-limit 1000 --dir-mode 0777 --file-mode 0666 --endpoint http://minio:9000"

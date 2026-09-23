@@ -5,10 +5,9 @@ metadata:
   namespace: messager
 
 spec:
+  storageClassName: standard
   accessModes:
     - ReadWriteMany
-
-  storageClassName: ""
 
   resources:
     requests:

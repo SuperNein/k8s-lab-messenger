@@ -2,12 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: messager-ingress
+  namespace: messager
 
 spec:
   ingressClassName: nginx
 
   rules:
-    - host: dev.messager.local
+    - host: messager.local
 
       http:
         paths:

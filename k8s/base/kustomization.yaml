@@ -11,6 +11,12 @@ resources:
   - postgres-pvc.yaml
   - postgres.yaml
 
+  - minio.yaml
+
+  - csi-s3-secret.yaml
+  - s3-pv.yaml
+  - s3-pvc.yaml
+
   - migrate-users-job.yaml
   - migrate-messages-job.yaml
 
@@ -20,28 +26,3 @@ resources:
   - bff.yaml
   - frontend.yaml
   - ingress.yaml
-
-  - minio.yaml
-  - minio-secret.yaml
-  - minio-bootstrap-job.yaml
-
-  - csi-s3-secret.yaml
-  - s3-pv.yaml
-  - s3-pvc.yaml
-
-generatorOptions:
-  disableNameSuffixHash: true
-
-configMapGenerator:
-  - name: postgres-init-scripts
-    files:
-      - bootstrap/postgres-init/00-databases.sql
-
-  - name: users-migrations-cm
-    files:
-      - ../../user-service/migrations/001_init.sql
-
-  - name: messages-migrations-cm
-    files:
-      - ../../message-service/migrations/001_init.sql
-      - ../../message-service/migrations/002_add_file_name.sql
