@@ -59,7 +59,7 @@ kubectl apply -k k8s/overlays/dev
 
 ---
 
-## 3. Инициализация MinIO S3 Bucket
+## 4. Инициализация MinIO S3 Bucket
 
 ```bash
 kubectl exec -it $(kubectl get pod -n messager-dev -l app=minio -o jsonpath='{.items[0].metadata.name}') -n messager-dev -- \
@@ -74,7 +74,7 @@ kubectl delete pod -l app=message-service -n messager-dev
 
 ---
 
-## 4. Проверка и эксплуатация
+## 5. Проверка и эксплуатация
 
 * **Статус подов и нод**:
 
