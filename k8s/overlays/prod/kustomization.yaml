@@ -1,0 +1,48 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: messager-prod
+
+resources:
+  - ../../base
+nameSuffix: -prod
+
+images:
+  - name: mablinov2704/frontend
+    digest: sha256:3e7b5052ee45495d656d46aedb41afd1e9aab5d544c02e0f2dfa175d3abeb133
+  - name: mablinov2704/bff
+    digest: sha256:b3c4aa354ed1592be2aeef30ec526c8dd6842c30e6578ed5d441e5f9a25f82ad
+  - name: mablinov2704/user-service
+    digest: sha256:1d0ba43c1aaa82367a6691ab60c9f69c611f54eec3598f449bc434d7ef9fb2dc
+  - name: mablinov2704/message-service
+    digest: sha256:bd0afef8fb344306f79880f682cc54078f84dbc08a08e45278409403bed6613b
+
+patches:
+  - path: patches/replicas.yaml
+  - path: patches/resources.yaml
+  - path: patches/affinity.yaml
+  - path: patches/pv-patch.yaml
+  - path: patches/secret.yaml
+
+  - target:
+      kind: ConfigMap
+      name: messager-config
+    patch: |
+      - op: replace
+        path: /data/FRONTEND_BFF_INTERNAL_URL
+        value: "http://bff-prod:8080"
+
+  - target:
+      kind: Job
+      name: migrate-messages
+    patch: |
+      - op: replace
+        path: /spec/template/spec/initContainers/0/env/0/value
+        value: "postgres-prod"
+
+  - target:
+      kind: Job
+      name: migrate-users
+    patch: |
+      - op: replace
+        path: /spec/template/spec/initContainers/0/env/0/value
+        value: "postgres-prod"
