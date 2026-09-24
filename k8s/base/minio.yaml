@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minio
-  namespace: messager
 
 spec:
   replicas: 1
@@ -20,12 +19,7 @@ spec:
       containers:
         - name: minio
           image: quay.io/minio/minio:latest
-          args:
-            - server
-            - /data
-            - --console-address
-            - ":9001"
-
+          args: ["server", "/data", "--console-address", ":9001"]
           ports:
             - containerPort: 9000
             - containerPort: 9001
@@ -49,7 +43,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: minio
-  namespace: messager
 
 spec:
   selector:

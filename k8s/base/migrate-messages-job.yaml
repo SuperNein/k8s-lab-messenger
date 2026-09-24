@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: migrate-messages
-  namespace: messager
 
 spec:
   backoffLimit: 3
@@ -10,6 +9,16 @@ spec:
   template:
     spec:
       restartPolicy: Never
+
+      initContainers:
+        - name: wait-for-postgres
+          image: alpine:3.19
+          imagePullPolicy: IfNotPresent
+          command: [
+            "sh",
+            "-c",
+            "until nc -z -v -w3 postgres-dev 5432; do echo 'Waiting...'; sleep 2; done"
+          ]
 
       containers:
         - name: migrate-messages
@@ -34,4 +43,5 @@ spec:
 
       volumes:
         - name: migrations
-          emptyDir: {}
+          configMap:
+            name: messages-migrations-cm
