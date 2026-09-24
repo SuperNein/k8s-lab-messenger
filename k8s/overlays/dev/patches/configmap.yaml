@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: messager-config
+
+data:
+  FRONTEND_BFF_INTERNAL_URL: "http://bff-dev:8080"
+  USER_SERVICE_URL: "http://user-service-dev:8081"
+  MSG_SERVICE_URL: "http://message-service-dev:8082"
+  POSTGRES_HOST: "postgres-dev"
