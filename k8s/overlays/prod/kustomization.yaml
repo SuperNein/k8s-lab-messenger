@@ -21,7 +21,7 @@ patches:
   - path: patches/resources.yaml
   - path: patches/affinity.yaml
   - path: patches/pv-patch.yaml
-  - path: patches/secret.yaml
+  - path: patches/secret.example.yaml
 
   - target:
       kind: ConfigMap

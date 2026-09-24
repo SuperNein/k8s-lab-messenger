@@ -6,7 +6,7 @@ namespace: messager
 resources:
   - namespace.yaml
   - configmap.yaml
-  - secret.yaml
+  - secret.example.yaml
 
   - postgres-pvc.yaml
   - postgres.yaml

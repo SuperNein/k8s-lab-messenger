@@ -20,4 +20,4 @@ patches:
   - path: patches/resources.yaml
   - path: patches/configmap.yaml
   - path: patches/pv-patch.yaml
-  - path: patches/secret.yaml
+  - path: patches/secret.example.yaml
